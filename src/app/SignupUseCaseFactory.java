@@ -35,7 +35,7 @@ public class SignupUseCaseFactory {
         try {
             SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
             ClearController clearController = createClearController(clearViewModel, clearUserDataAccessObject, viewManagerModel);
-            return new SignupView(signupController, signupViewModel, clearController);
+            return new SignupView(signupController, signupViewModel, clearController, clearViewModel);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

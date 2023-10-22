@@ -8,9 +8,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, ClearUserDataAccessInterface {
 
@@ -104,6 +102,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface, 
         } catch(Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public List<String> getAllUsernames() {
+        return new ArrayList<>(accounts.keySet());
     }
 
 }

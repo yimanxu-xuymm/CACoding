@@ -4,6 +4,4 @@ import use_case.login.LoginOutputData;
 
 public interface ClearOutputBoundary {
     void prepareSuccessView(ClearOutputData outputData);
-
-    void prepareFailView(String error);
 }

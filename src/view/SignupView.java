@@ -1,9 +1,11 @@
 package view;
 
+import interface_adapter.clear_users.ClearState;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.clear_users.ClearController;
+import interface_adapter.clear_users.ClearViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,13 +31,16 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     // TODO Note: this is the new JButton for clearing the users file
     private final JButton clear;
     private final ClearController clearController;
+    private final ClearViewModel clearViewModel;
 
-    public SignupView(SignupController controller, SignupViewModel signupViewModel, ClearController clearController) {
+    public SignupView(SignupController controller, SignupViewModel signupViewModel, ClearController clearController, ClearViewModel clearViewModel) {
 
         this.signupController = controller;
         this.signupViewModel = signupViewModel;
         this.clearController = clearController;
+        this.clearViewModel = clearViewModel;
         signupViewModel.addPropertyChangeListener(this);
+        clearViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -176,9 +181,15 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        SignupState state = (SignupState) evt.getNewValue();
-        if (state.getUsernameError() != null) {
-            JOptionPane.showMessageDialog(this, state.getUsernameError());
+        String propertyName = evt.getPropertyName();
+        if (propertyName.equals("state")){
+            SignupState state = (SignupState) evt.getNewValue();
+            if (state.getUsernameError() != null) {
+                JOptionPane.showMessageDialog(this, state.getUsernameError());
+            }
+        } else {
+            ClearState clearState = (ClearState) evt.getNewValue();
+            JOptionPane.showMessageDialog(this, clearState.getFeedbackMessage());
         }
     }
 }

@@ -1,8 +1,6 @@
 package interface_adapter.clear_users;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.logged_in.LoggedInViewModel;
-import interface_adapter.login.LoginViewModel;
 import use_case.clear_users.ClearOutputBoundary;
 import use_case.clear_users.ClearOutputData;
 
@@ -16,18 +14,13 @@ public class ClearPresenter implements ClearOutputBoundary {
 
     @Override
     public void prepareSuccessView(ClearOutputData response) {
-
         ClearState clearState = clearViewModel.getState();
-        clearState.setFeedbackMessage("All users cleared successfully!");
+        String clearedUsersMessage = String.join(", ", response.getClearedUsers());
+        clearState.setFeedbackMessage(clearedUsersMessage);
         this.clearViewModel.setState(clearState);
-        this.clearViewModel.firePropertyChanged();
-    }
-
-    @Override
-    public void prepareFailView(String error) {
-        ClearState clearState = clearViewModel.getState();
-        clearState.setFeedbackMessage(error);
         clearViewModel.firePropertyChanged();
-    }
 
+        viewManagerModel.setActiveView(clearViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
 }
